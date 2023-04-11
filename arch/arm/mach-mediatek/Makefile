@@ -1,0 +1,16 @@
+# SPDX-License-Identifier:	GPL-2.0
+
+obj-y	+= cpu.o
+obj-$(CONFIG_SPL_BUILD)	+= spl.o
+
+obj-$(CONFIG_MT8512) += mt8512/
+obj-$(CONFIG_TARGET_MT7622) += mt7622/
+obj-$(CONFIG_TARGET_MT7623) += mt7623/
+obj-$(CONFIG_TARGET_MT7629) += mt7629/
+obj-$(CONFIG_TARGET_MT8183) += mt8183/
+obj-$(CONFIG_TARGET_MT8188) += mt8188/
+obj-$(CONFIG_TARGET_MT8195) += mt8195/
+obj-$(CONFIG_TARGET_LEC_MTK_I1200) += lec_mtk_i1200/
+obj-$(CONFIG_TARGET_MT8365) += mt8365/
+obj-$(CONFIG_TARGET_MT8516) += mt8516/
+obj-$(CONFIG_TARGET_MT8518) += mt8518/
