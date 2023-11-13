@@ -42,14 +42,21 @@ int mtk_soc_early_init(void)
 	return 0;
 }
 
+#ifndef CONFIG_SYSRESET
 void reset_cpu(ulong addr)
 {
 	psci_system_reset();
 }
+#endif
 
 int print_cpuinfo(void)
 {
-	printf("CPU:   MediaTek MT8365\n");
+	u32 part = mediatek_sip_part_name();
+
+	if (part)
+		printf("CPU:   MediaTek MT%.4x\n", part);
+	else
+		printf("CPU:   MediaTek MT8365\n");
 	return 0;
 }
 
@@ -58,7 +65,7 @@ static struct mm_region mt8365_mem_map[] = {
 		/* DDR */
 		.virt = 0x40000000UL,
 		.phys = 0x40000000UL,
-		.size = 0x40000000UL,
+		.size = 0xC0000000UL,
 		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL) | PTE_BLOCK_OUTER_SHARE,
 	}, {
 		.virt = 0x00000000UL,

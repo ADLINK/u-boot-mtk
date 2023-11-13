@@ -32,6 +32,7 @@ obj-$(CONFIG_SYS_I2C_MICROCHIP) += i2c-microchip.o
 obj-$(CONFIG_SYS_I2C_MV) += mv_i2c.o
 obj-$(CONFIG_SYS_I2C_MVTWSI) += mvtwsi.o
 obj-$(CONFIG_SYS_I2C_MXC) += mxc_i2c.o
+obj-$(CONFIG_SYS_I2C_MTK) += mtk_i2c.o
 obj-$(CONFIG_SYS_I2C_NEXELL) += nx_i2c.o
 obj-$(CONFIG_SYS_I2C_NPCM) += npcm_i2c.o
 obj-$(CONFIG_SYS_I2C_OCORES) += ocores_i2c.o
@@ -54,6 +55,5 @@ obj-$(CONFIG_SYS_I2C_UNIPHIER_F) += i2c-uniphier-f.o
 obj-$(CONFIG_SYS_I2C_VERSATILE) += i2c-versatile.o
 obj-$(CONFIG_SYS_I2C_XILINX_XIIC) += xilinx_xiic.o
 obj-$(CONFIG_TEGRA186_BPMP_I2C) += tegra186_bpmp_i2c.o
-obj-$(CONFIG_SYS_I2C_MT65XX) += i2c-mt65xx.o
 
 obj-$(CONFIG_$(SPL_)I2C_MUX) += muxes/

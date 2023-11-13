@@ -11,6 +11,7 @@
 #include <dt-bindings/clock/mt8195-clk.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/pinctrl/mediatek,mt8195-pinfunc.h>
 #include <dt-bindings/phy/phy.h>
 
 / {
@@ -191,7 +192,7 @@
 		};
 
 		infracfg_ao: infracfg_ao@10001000 {
-			compatible = "mediatek,mt8195-infracfg_ao";
+			compatible = "mediatek,mt8195-infracfg_ao", "syscon";
 			reg = <0 0x10001000 0 0x1000>;
 			#clock-cells = <1>;
 		};
@@ -250,6 +251,127 @@
 			#clock-cells = <1>;
 		};
 
+		eth: ethernet@11021000 {
+			compatible = "mediatek,mt8195-gmac", "snps,dwmac-5.10a";
+			reg = <0 0x11021000 0 0x4000>,
+			/* TODO: remove it when power driver is ready*/
+				  <0 0x10006000 0 0x1000>;
+			interrupts = <GIC_SPI 716 IRQ_TYPE_LEVEL_HIGH 0>;
+			interrupt-names = "macirq";
+			clock-names = "axi",
+				      "apb",
+				      "mac_cg",
+				      "mac_main",
+				      "ptp_ref",
+				      "rmii_internal";
+			clocks = <&pericfg_ao CLK_PERI_AO_ETHERNET>,
+				 <&pericfg_ao CLK_PERI_AO_ETHERNET_BUS>,
+				 <&pericfg_ao CLK_PERI_AO_ETHERNET_MAC>,
+				 <&topckgen CLK_TOP_SNPS_ETH_250M>,
+				 <&topckgen CLK_TOP_SNPS_ETH_62P4M_PTP>,
+				 <&topckgen CLK_TOP_SNPS_ETH_50M_RMII>;
+			assigned-clocks = <&topckgen CLK_TOP_SNPS_ETH_250M>,
+					  <&topckgen CLK_TOP_SNPS_ETH_62P4M_PTP>,
+					  <&topckgen CLK_TOP_SNPS_ETH_50M_RMII>;
+			assigned-clock-parents = <&topckgen CLK_TOP_ETHPLL_D2>,
+						 <&topckgen CLK_TOP_ETHPLL_D8>,
+						 <&topckgen CLK_TOP_ETHPLL_D10>;
+			/*power-domains = <&spm MT8195_POWER_DOMAIN_ETHER>;*/
+			mediatek,pericfg = <&infracfg_ao>;
+			status = "okay";
+		};
+
+		i2c0: i2c@11e00000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11e00000 0 0x1000>,
+			      <0 0x10220080 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_w CLK_IMP_IIC_WRAP_W_I2C0>,
+				 <&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c1: i2c@11e01000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11e01000 0 0x1000>,
+			      <0 0x10220200 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_w CLK_IMP_IIC_WRAP_W_I2C1>,
+				 <&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c2: i2c@11e02000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11e02000 0 0x1000>,
+			      <0 0x10220380 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_w CLK_IMP_IIC_WRAP_W_I2C2>,
+				 <&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c3: i2c@11e03000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11e03000 0 0x1000>,
+			      <0 0x10220480 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_w CLK_IMP_IIC_WRAP_W_I2C3>,
+				 <&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c4: i2c@11e04000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11e04000 0 0x1000>,
+			      <0 0x10220500 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_w CLK_IMP_IIC_WRAP_W_I2C4>,
+				 <&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c5: i2c@11d00000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11d00000 0 0x1000>,
+			      <0 0x10220580 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_s CLK_IMP_IIC_WRAP_S_I2C5>,
+				 <&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c6: i2c@11d01000 {
+			compatible = "mediatek,mt8195-i2c";
+			reg = <0 0x11d01000 0 0x1000>,
+				<0 0x10220600 0 0x80>;
+			clock-div = <1>;
+			clocks = <&imp_iic_wrap_s CLK_IMP_IIC_WRAP_S_I2C6>,
+				<&infracfg_ao CLK_INFRA_AO_APDMA_B>;
+			clock-names = "main", "dma";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
 		mmc0: mmc@11230000 {
 			compatible = "mediatek,mt8195-mmc",
 				     "mediatek,mt8183-mmc";
@@ -296,6 +418,23 @@
 				reg = <0x700 0x700>;
 				clocks = <&apmixedsys CLK_APMIXED_PLL_SSUSB26M>,
 					 <&topckgen CLK_TOP_SSUSB_PHY_REF>;
+				clock-names = "ref", "da_ref";
+				#phy-cells = <1>;
+				status = "okay";
+			};
+		};
+
+		u3phy1: t-phy@11e30000 {
+			compatible = "mediatek,generic-tphy-v2";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0 0 0x11e30000 0xe00>;
+			status = "okay";
+
+			u2port1: usb-phy@0 {
+				reg = <0x0 0x700>;
+				clocks = <&topckgen CLK_TOP_SSUSB_PHY_P1_REF>,
+					 <&apmixedsys CLK_APMIXED_USB1PLL>;
 				clock-names = "ref", "da_ref";
 				#phy-cells = <1>;
 				status = "okay";
@@ -352,6 +491,27 @@
 				clock-names = "ref";
 				#phy-cells = <1>;
 			};
+		};
+
+		xhci1: xhci@11290000 {
+			compatible = "mediatek,mt8195-xhci",
+				     "mediatek,mtk-xhci";
+			reg = <0 0x11290000 0 0x1000>,
+			      <0 0x11293e00 0 0x0100>;
+			reg-names = "mac", "ippc";
+			interrupts = <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH 0>;
+			phys = <&u2port1 PHY_TYPE_USB2>;
+			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_1P>,
+					  <&topckgen CLK_TOP_SSUSB_XHCI_1P>;
+			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
+						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
+			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_1P_BUS>,
+				 <&pericfg_ao CLK_PERI_AO_SSUSB_1P_XHCI>,
+				 <&topckgen CLK_TOP_SSUSB_P1_REF>,
+				 <&apmixedsys CLK_APMIXED_USB1PLL>;
+			clock-names = "sys_ck", "xhci_ck", "ref_ck", "mcu_ck";
+			mediatek,u3p-dis-msk = <0x1>;
+			status = "disable";
 		};
 
 		xhci3: xhci3@112b0000 {

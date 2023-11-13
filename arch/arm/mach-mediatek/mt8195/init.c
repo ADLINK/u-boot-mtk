@@ -26,7 +26,20 @@ int dram_init(void)
 	if (ret)
 		return ret;
 
-	return fdtdec_setup_mem_size_base();
+	fdtdec_setup_mem_size_base();
+
+	/*
+	 * Limit gd->ram_top not exceeding SZ_4G.
+	 * Because some periphals like mmc requires DMA buffer
+	 * allocaed below SZ_4G.
+	 *
+	 * Note: SZ_1M is for adjusting gd->relocaddr,
+	 *       the reserved memory for u-boot itself.
+	 */
+	if (gd->ram_base + gd->ram_size >= SZ_4G)
+		gd->mon_len = (gd->ram_base + gd->ram_size + SZ_1M) - SZ_4G;
+
+	return 0;
 }
 
 int dram_init_banksize(void)
@@ -47,14 +60,21 @@ int mtk_soc_early_init(void)
 	return 0;
 }
 
+#ifndef CONFIG_SYSRESET
 void reset_cpu(ulong addr)
 {
 	psci_system_reset();
 }
+#endif
 
 int print_cpuinfo(void)
 {
-	printf("CPU:   MediaTek MT8195\n");
+	u32 part = mediatek_sip_part_name();
+
+	if (part)
+		printf("CPU:   MediaTek MT%.4x\n", part);
+	else
+		printf("CPU:   MediaTek MT8195\n");
 	return 0;
 }
 
@@ -63,7 +83,7 @@ static struct mm_region mt8195_mem_map[] = {
 		/* DDR */
 		.virt = 0x40000000UL,
 		.phys = 0x40000000UL,
-		.size = 0x80000000UL,
+		.size = 0x200000000UL,
 		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL) | PTE_BLOCK_OUTER_SHARE,
 	}, {
 		.virt = 0x00000000UL,

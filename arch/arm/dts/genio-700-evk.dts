@@ -10,10 +10,11 @@
 #include "mt8188.dtsi"
 
 / {
-	model = "MediaTek MT8188 demo board";
+	model = "MediaTek Genio-700 EVK";
 	compatible = "mediatek,genio-700-evk", "mediatek,mt8188";
 
 	memory@40000000 {
+		/* 8GB */
 		device_type = "memory";
 		reg = <0 0x40000000 2 0x00000000>;
 	};
@@ -21,6 +22,11 @@
 	firmware: firmware {
 		optee {
 			compatible = "linaro,optee-tz";
+			method = "smc";
+		};
+
+		psci: psci {
+			compatible = "arm,psci-1.0";
 			method = "smc";
 		};
 	};
@@ -49,6 +55,11 @@
 			no-map;
 			reg = <0 0x43200000 0 0x00c00000>;
 		};
+
+		dsi_reserved: dsi@60000000 {
+			reg = <0 0x60000000 0 0x02000000>;
+			no-map;
+		};
 	};
 
 	chosen {
@@ -72,6 +83,17 @@
 		regulator-boot-on;
 		regulator-always-on;
 	};
+
+	dsi0: dsi0{
+		compatible = "mediatek,mt8188-dsi";
+		reg = <0 0x60000000 0 0x02000000>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&panel_pins_default>;
+		reset-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
+		dcdc-gpios = <&gpio 45 GPIO_ACTIVE_HIGH>;
+		enable-gpios = <&gpio 111 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
 };
 
 &watchdog {
@@ -83,13 +105,38 @@
 };
 
 &mmc0 {
-	bus-width = <4>;
+	bus-width = <8>;
 	max-frequency = <200000000>;
 	cap-mmc-highspeed;
 	mmc-hs200-1_8v;
+	mmc-hs400-1_8v;
+	hs400-ds-delay = <0x1481b>;
 	cap-mmc-hw-reset;
 	vmmc-supply = <&reg_3p3v>;
 	vqmmc-supply = <&reg_1p8v>;
 	non-removable;
 	status = "okay";
+};
+
+&pio {
+	panel_pins_default: panel-pins-default {
+		panel-dcdc {
+			pinmux = <PINMUX_GPIO45__FUNC_B_GPIO45>;
+			output-low;
+		};
+
+		panel-en {
+			pinmux = <PINMUX_GPIO111__FUNC_B_GPIO111>;
+			output-low;
+		};
+
+		panel-rst {
+			pinmux = <PINMUX_GPIO25__FUNC_B_GPIO25>;
+			output-high;
+		};
+
+		pins-bl {
+			pinmux = <PINMUX_GPIO29__FUNC_O_DISP_PWM0>;
+		};
+	};
 };
