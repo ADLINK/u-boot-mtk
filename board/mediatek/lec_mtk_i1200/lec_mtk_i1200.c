@@ -181,11 +181,6 @@ struct sku_info skus[] = {
 #define PCB_BIT0 20
 #define PCB_BIT1 21
 
-#define PCB_PUPD_REG 	0x11F40030
-#define PCB_PUPD_BIT0	9
-#define PCB_PUPD_BIT1	8
-
-
 int board_late_init(void)
 {
 	char *boot_conf_orig = env_get("boot_conf");
@@ -214,16 +209,6 @@ int board_late_init(void)
     }
 
     uint32_t reg_value;
-
-    /* Read the original value of the register */
-    reg_value = readl(PCB_PUPD_REG);
-
-    /* Clear bits at positions BIT0 and BIT1 */
-    reg_value &= ~(1 << PCB_PUPD_BIT0);
-    reg_value &= ~(1 << PCB_PUPD_BIT1);
-
-    /* Write back the new value to the register */
-    writel(reg_value, PCB_PUPD_REG);
 
     uint32_t pcb_id_0 = (*(volatile uint32_t *)PCB_REG >> PCB_BIT0) & 0x1;
     uint32_t pcb_id_1 = (*(volatile uint32_t *)PCB_REG >> PCB_BIT1) & 0x1;
