@@ -174,7 +174,10 @@ struct sku_info skus[] = {
     {5, "LEC-MTK-I1200-8G-64G-BW-CT(500E)", "conf-memory-8G.dtbo"},
     {6, "LEC-MTK-I1200-4G-64G-BW-ER(600E)", "conf-memory-4G.dtbo"},
     {7, "LEC-MTK-I1200-8G-64G-BW-ER(700E)", "conf-memory-8G.dtbo"},
-    {8, "LEC-MTK-I1200-8G-128G-BW-ER(800E)", "conf-memory-8G.dtbo"}
+    {8, "LEC-MTK-I1200-8G-128G-BW-ER(800E)", "conf-memory-8G.dtbo"},
+    {9, "LEC-MTK-I1200-4G-64G-ER(TBD)", "conf-memory-4G.dtbo"},
+    {10, "LEC-MTK-I1200-8G-64G-ER(TBD)", "conf-memory-8G.dtbo"},
+    {11, "LEC-MTK-I1200-8G-128G-ER(710E)", "conf-memory-8G.dtbo"}
 };
 
 #define PCB_REG			0x10005230
