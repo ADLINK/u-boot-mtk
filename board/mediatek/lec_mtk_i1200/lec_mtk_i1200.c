@@ -191,7 +191,7 @@ struct sku_info skus[] = {
 int board_late_init(void)
 {
 	char *boot_conf_orig = env_get("boot_conf");
-	char cmd[128];
+	char cmd[256];
 
     uint32_t sku_id_0 = (*(volatile uint32_t *)SKU_REG >> SKU_BIT0) & 0x1;
     uint32_t sku_id_1 = (*(volatile uint32_t *)SKU_REG >> SKU_BIT1) & 0x1;
@@ -204,10 +204,10 @@ int board_late_init(void)
     int i;
     for (i = 0; i < sizeof(skus)/sizeof(struct sku_info); i++) {
         if (skus[i].sku_id == sku_id) {
-            printf("SKU:   %s\n", skus[i].sku_str);
-			snprintf(cmd, sizeof(cmd), "setenv boot_conf '%s#%s'", boot_conf_orig, skus[i].dtbo_file);
-			run_command(cmd, 0);
-            break;
+		printf("SKU:   %s\n", skus[i].sku_str);
+		snprintf(cmd, sizeof(cmd), "setenv boot_conf '%s#%s'", boot_conf_orig, skus[i].dtbo_file);
+		run_command(cmd, 0);
+		break;
         }
     }
 
