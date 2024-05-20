@@ -172,12 +172,12 @@ struct sku_info skus[] = {
     {3, "LEC-MTK-I1200-2G-64G-BW-CT(300E)", "conf-memory-2G.dtbo"},
     {4, "LEC-MTK-I1200-4G-64G-BW-CT(400E)", "conf-memory-4G.dtbo"},
     {5, "LEC-MTK-I1200-8G-64G-BW-CT(500E)", "conf-memory-8G.dtbo"},
-    {6, "LEC-MTK-I1200-4G-64G-BW-ER(600E)", "conf-memory-4G.dtbo"},
-    {7, "LEC-MTK-I1200-8G-64G-BW-ER(700E)", "conf-memory-8G.dtbo"},
-    {8, "LEC-MTK-I1200-8G-128G-BW-ER(800E)", "conf-memory-8G.dtbo"},
-    {9, "LEC-MTK-I1200-4G-64G-ER(TBD)", "conf-memory-4G.dtbo"},
-    {10, "LEC-MTK-I1200-8G-64G-ER(TBD)", "conf-memory-8G.dtbo"},
-    {11, "LEC-MTK-I1200-8G-128G-ER(710E)", "conf-memory-8G.dtbo"}
+    {6, "LEC-MTK-I1200-4G-64G-BW-ER(600E)", "conf-memory-4G.dtbo#conf-temp-er.dtbo"},
+    {7, "LEC-MTK-I1200-8G-64G-BW-ER(700E)", "conf-memory-8G.dtbo#conf-temp-er.dtbo"},
+    {8, "LEC-MTK-I1200-8G-128G-BW-ER(800E)", "conf-memory-8G.dtbo#conf-temp-er.dtbo"},
+    {9, "LEC-MTK-I1200-4G-64G-ER(TBD)", "conf-memory-4G.dtbo#conf-temp-er.dtbo"},
+    {10, "LEC-MTK-I1200-8G-64G-ER(TBD)", "conf-memory-8G.dtbo#conf-temp-er.dtbo"},
+    {11, "LEC-MTK-I1200-8G-128G-ER(710E)", "conf-memory-8G.dtbo#conf-temp-er.dtbo"}
 };
 
 #define PCB_REG			0x10005230
